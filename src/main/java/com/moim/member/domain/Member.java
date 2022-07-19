@@ -1,7 +1,9 @@
 package com.moim.member.domain;
 
+import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Column;
@@ -13,6 +15,7 @@ import javax.persistence.Id;
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EqualsAndHashCode(of = "id")
 public class Member {
     @Id
@@ -31,4 +34,20 @@ public class Member {
     private String bio;
 
 
+    public Member(String userId, String name, String birthday, String gender, String password, String email) {
+        this(null, name, birthday, gender, userId, password, email, null, null, null);
+    }
+
+    public Member(Long id, String name, String birthday, String gender, String userId, String password, String email, String affiliation, String inedibleIngredients, String bio) {
+        this.id = id;
+        this.name = name;
+        this.birthday = birthday;
+        this.gender = gender;
+        this.userId = userId;
+        this.password = password;
+        this.email = email;
+        this.affiliation = affiliation;
+        this.inedibleIngredients = inedibleIngredients;
+        this.bio = bio;
+    }
 }
