@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.net.URI;
 
 @RestController
@@ -18,7 +19,7 @@ public class MemberController {
     private final MemberService memberService;
 
     @PostMapping("/signup")
-    public ResponseEntity signup(@RequestBody SignupMemberRequest request) {
+    public ResponseEntity signup(@RequestBody @Valid SignupMemberRequest request) {
         SignupMemberResponse memberResponse = memberService.signup(request);
         return ResponseEntity.created(URI.create("/members/"+memberResponse.getId())).build();
     }
