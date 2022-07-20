@@ -17,4 +17,8 @@ public class SignupMemberRequest {
     public Member toEntity() {
         return new Member(userId, name, birth, gender, password, email);
     }
+
+    public void encodePassword(String encodedPassword) {
+        this.password = encodedPassword;
+    }
 }
