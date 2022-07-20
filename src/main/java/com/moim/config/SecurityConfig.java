@@ -13,13 +13,16 @@ public class SecurityConfig {
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
-        return web -> web.ignoring().antMatchers("/h2-console/**");
+        return web -> web.ignoring().antMatchers("/h2-console/**","members/signup");
     }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .mvcMatchers( "/home").permitAll()
+        http
+                .csrf()
+                .disable()
+                .authorizeRequests()
+                .mvcMatchers("/h2-console/**", "/home", "/members/signup").permitAll()
                 .anyRequest().authenticated();
 
         return http.build();
