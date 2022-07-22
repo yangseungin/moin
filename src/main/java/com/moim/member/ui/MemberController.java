@@ -1,5 +1,6 @@
 package com.moim.member.ui;
 
+import com.moim.member.application.MemberService;
 import com.moim.member.application.dto.SignupMemberRequest;
 import com.moim.member.application.dto.SignupMemberResponse;
 import lombok.RequiredArgsConstructor;

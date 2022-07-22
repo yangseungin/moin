@@ -1,4 +1,4 @@
-package com.moim.member.ui;
+package com.moim.member.application;
 
 import com.moim.member.application.dto.SignupMemberRequest;
 import com.moim.member.application.dto.SignupMemberResponse;
