@@ -22,8 +22,9 @@ public class SecurityConfig {
                 .csrf()
                 .disable()
                 .authorizeRequests()
-                .mvcMatchers("/h2-console/**", "/home", "/members/signup", "/session/login").permitAll()
-                .anyRequest().authenticated();
+                .mvcMatchers("/h2-console/**", "/home", "/members/**", "/session/login").permitAll()
+                .anyRequest().authenticated()
+        ;
 
         return http.build();
     }
