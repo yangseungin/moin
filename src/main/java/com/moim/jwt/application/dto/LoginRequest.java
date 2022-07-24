@@ -4,14 +4,14 @@ import lombok.Getter;
 
 @Getter
 public class LoginRequest {
-    private String userId;
+    private String memberId;
     private String password;
 
     public LoginRequest() {
     }
 
-    public LoginRequest(String userId, String password) {
-        this.userId = userId;
+    public LoginRequest(String memberId, String password) {
+        this.memberId = memberId;
         this.password = password;
     }
 }

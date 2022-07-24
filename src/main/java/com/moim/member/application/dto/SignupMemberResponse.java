@@ -7,18 +7,18 @@ import lombok.Getter;
 public class SignupMemberResponse {
 
     private Long id;
-    private String userId;
+    private String memberId;
     private String name;
     private String email;
 
-    protected SignupMemberResponse(Long id, String userId, String name, String email) {
+    protected SignupMemberResponse(Long id, String memberId, String name, String email) {
         this.id = id;
-        this.userId = userId;
+        this.memberId = memberId;
         this.name = name;
         this.email = email;
     }
 
     public static SignupMemberResponse of(Member member) {
-        return new SignupMemberResponse(member.getId(), member.getUserId(), member.getName(), member.getEmail());
+        return new SignupMemberResponse(member.getId(), member.getMemberId(), member.getName(), member.getEmail());
     }
 }

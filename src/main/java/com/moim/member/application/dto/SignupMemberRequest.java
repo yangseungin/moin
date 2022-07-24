@@ -9,7 +9,7 @@ import javax.validation.constraints.Pattern;
 @Getter
 public class SignupMemberRequest {
 
-    private String userId;
+    private String memberId;
     private String name;
     @Pattern(regexp = "^(19[0-9][0-9]|20\\d{2})(0[0-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])$")
     private String birth;
@@ -22,8 +22,8 @@ public class SignupMemberRequest {
     public SignupMemberRequest() {
     }
 
-    public SignupMemberRequest(String userId, String name, String birth, String gender, String password, String email) {
-        this.userId = userId;
+    public SignupMemberRequest(String memberId, String name, String birth, String gender, String password, String email) {
+        this.memberId = memberId;
         this.name = name;
         this.birth = birth;
         this.gender = gender;
@@ -32,7 +32,7 @@ public class SignupMemberRequest {
     }
 
     public Member toEntity() {
-        return new Member(userId, name, birth, gender, password, email);
+        return new Member(memberId, name, birth, gender, password, email);
     }
 
     public void encodePassword(String encodedPassword) {

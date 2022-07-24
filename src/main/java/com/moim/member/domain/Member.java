@@ -26,7 +26,7 @@ public class Member {
     private String birthday;
     private String gender;
     @Column(unique = true)
-    private String userId;
+    private String memberId;
     private String password;
     @Column(unique = true)
     private String email;
@@ -35,16 +35,16 @@ public class Member {
     private String bio;
 
 
-    public Member(String userId, String name, String birthday, String gender, String password, String email) {
-        this(null, name, birthday, gender, userId, password, email, null, null, null);
+    public Member(String memberId, String name, String birthday, String gender, String password, String email) {
+        this(null, name, birthday, gender, memberId, password, email, null, null, null);
     }
 
-    public Member(Long id, String name, String birthday, String gender, String userId, String password, String email, String affiliation, String inedibleIngredients, String bio) {
+    public Member(Long id, String name, String birthday, String gender, String memberId, String password, String email, String affiliation, String inedibleIngredients, String bio) {
         this.id = id;
         this.name = name;
         this.birthday = birthday;
         this.gender = gender;
-        this.userId = userId;
+        this.memberId = memberId;
         this.password = password;
         this.email = email;
         this.affiliation = affiliation;

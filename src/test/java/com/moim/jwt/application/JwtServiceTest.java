@@ -43,7 +43,7 @@ class JwtServiceTest {
         LoginRequest request = new LoginRequest("yangsi", "password12#");
         given(memberRepository.findByUserId(anyString()))
                 .willReturn(Optional.of(member));
-        when(jwtUtil.getToken(request.getUserId()))
+        when(jwtUtil.getToken(request.getMemberId()))
                 .thenReturn(VALID_TOKEN);
 
         TokenData login = jwtService.login(request);

@@ -15,11 +15,11 @@ public class JwtService {
     private final JwtUtil jwtUtil;
 
     public TokenData login(LoginRequest request) {
-        Member member = memberRepository.findByUserId(request.getUserId())
+        Member member = memberRepository.findByUserId(request.getMemberId())
                 .orElseThrow(() -> new IllegalArgumentException("등록되지 않은 회원입니다."));
         member.verificationPassword(request.getPassword());
 
-        String encode = jwtUtil.getToken(request.getUserId());
+        String encode = jwtUtil.getToken(request.getMemberId());
 
         return new TokenData(encode);
     }
