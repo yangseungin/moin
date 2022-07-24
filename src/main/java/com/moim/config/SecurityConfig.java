@@ -13,7 +13,7 @@ public class SecurityConfig {
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
-        return web -> web.ignoring().antMatchers("/h2-console/**","members/signup");
+        return web -> web.ignoring().antMatchers("/h2-console/**", "members/signup");
     }
 
     @Bean
@@ -22,7 +22,7 @@ public class SecurityConfig {
                 .csrf()
                 .disable()
                 .authorizeRequests()
-                .mvcMatchers("/h2-console/**", "/home", "/members/signup").permitAll()
+                .mvcMatchers("/h2-console/**", "/home", "/members/signup", "/session/login").permitAll()
                 .anyRequest().authenticated();
 
         return http.build();
