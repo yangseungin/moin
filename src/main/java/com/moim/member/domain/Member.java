@@ -1,5 +1,6 @@
 package com.moim.member.domain;
 
+import com.moim.member.application.dto.UpdateMemberRequest;
 import com.moim.member.application.error.AuthorizationException;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
@@ -36,7 +37,7 @@ public class Member {
 
 
     public Member(String memberId, String name, String birthday, String gender, String password, String email) {
-        this(null, name, birthday, gender, memberId, password, email, null, null, null);
+        this(null, name, birthday, gender, memberId, password, email, "", "", "");
     }
 
     public Member(Long id, String name, String birthday, String gender, String memberId, String password, String email, String affiliation, String inedibleIngredients, String bio) {
@@ -56,5 +57,13 @@ public class Member {
         if (!this.password.equals(password)) {
             throw new AuthorizationException("패스워드가 일치하지 않습니다.");
         }
+    }
+
+    public void updateInfomation(UpdateMemberRequest request) {
+        this.name = request.getName();
+        this.birthday = request.getBirth();
+        this.gender = request.getGender();
+        this.password = request.getPassword();
+        this.email = request.getEmail();
     }
 }

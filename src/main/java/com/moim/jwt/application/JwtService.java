@@ -15,7 +15,7 @@ public class JwtService {
     private final JwtUtil jwtUtil;
 
     public TokenData login(LoginRequest request) {
-        Member member = memberRepository.findByUserId(request.getMemberId())
+        Member member = memberRepository.findByMemberId(request.getMemberId())
                 .orElseThrow(() -> new IllegalArgumentException("등록되지 않은 회원입니다."));
         member.verificationPassword(request.getPassword());
 

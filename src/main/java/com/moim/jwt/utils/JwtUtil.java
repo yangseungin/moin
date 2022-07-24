@@ -15,9 +15,6 @@ public class JwtUtil {
     private static final String CLAIM_NAME = "userId";
     private final Key key;
 
-    @Value("${jwt.expire-time}")
-    private long expireTime;
-
     public JwtUtil(@Value("${jwt.secret}") String secret) {
         key = Keys.hmacShaKeyFor(secret.getBytes());
     }

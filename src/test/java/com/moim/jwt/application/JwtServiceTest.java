@@ -41,7 +41,7 @@ class JwtServiceTest {
     @Test
     void 로그인_성공시_액세스토큰을_조회할수있다() {
         LoginRequest request = new LoginRequest("yangsi", "password12#");
-        given(memberRepository.findByUserId(anyString()))
+        given(memberRepository.findByMemberId(anyString()))
                 .willReturn(Optional.of(member));
         when(jwtUtil.getToken(request.getMemberId()))
                 .thenReturn(VALID_TOKEN);
@@ -54,7 +54,7 @@ class JwtServiceTest {
     @Test
     void 비밀번호가_다른경우_로그인할_수_없다() {
         LoginRequest request = new LoginRequest("yangsi", "wrong_passw0rd");
-        given(memberRepository.findByUserId(anyString()))
+        given(memberRepository.findByMemberId(anyString()))
                 .willReturn(Optional.of(member));
 
         assertThatThrownBy(() -> jwtService.login(request))

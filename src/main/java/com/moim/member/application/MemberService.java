@@ -2,6 +2,8 @@ package com.moim.member.application;
 
 import com.moim.member.application.dto.SignupMemberRequest;
 import com.moim.member.application.dto.SignupMemberResponse;
+import com.moim.member.application.dto.UpdateMemberRequest;
+import com.moim.member.application.dto.UpdateMemberResponse;
 import com.moim.member.domain.Member;
 import com.moim.member.domain.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,5 +26,18 @@ public class MemberService {
         Member member = request.toEntity();
         Member saved = memberRepository.save(member);
         return SignupMemberResponse.of(saved);
+    }
+
+    @Transactional
+    public UpdateMemberResponse updateInfo(Long memberId, UpdateMemberRequest request) {
+        Member member = getMember(memberId);
+        member.updateInfomation(request);
+
+        return UpdateMemberResponse.of(member);
+    }
+
+    private Member getMember(Long memberId) {
+        return memberRepository.findById(memberId)
+                .orElseThrow(() -> new IllegalArgumentException("등록되지 않은 회원입니다."));
     }
 }
