@@ -39,4 +39,12 @@ class JwtUtilTest {
         assertThatThrownBy(() -> jwtUtil.getPayload(INVALID_TOKEN))
                 .isInstanceOf(SignatureException.class);
     }
+
+    @Test
+    void validToken() {
+        String invalidToken = "abc.def.ghi";
+        String yangsi = jwtUtil.getToken("yangsi");
+        assertThat(jwtUtil.validToken(yangsi)).isTrue();
+        assertThat(jwtUtil.validToken(invalidToken)).isFalse();
+    }
 }
