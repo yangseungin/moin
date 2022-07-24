@@ -1,5 +1,6 @@
 package com.moim.member.domain;
 
+import com.moim.member.application.error.AuthorizationException;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -49,5 +50,11 @@ public class Member {
         this.affiliation = affiliation;
         this.inedibleIngredients = inedibleIngredients;
         this.bio = bio;
+    }
+
+    public void verificationPassword(String password) {
+        if (!this.password.equals(password)) {
+            throw new AuthorizationException("패스워드가 일치하지 않습니다.");
+        }
     }
 }
