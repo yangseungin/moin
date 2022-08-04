@@ -5,6 +5,7 @@ import com.moim.moim.application.dto.CreateMoimRequest;
 import com.moim.moim.application.dto.CreateMoimResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +21,7 @@ public class MoimController {
 
     private final MoimService moimService;
 
+    @PreAuthorize("isAuthenticated() and hasAuthority('USER')")
     @PostMapping("/create")
     public ResponseEntity<CreateMoimResponse> createMoim(@RequestBody @Valid CreateMoimRequest request) {
         CreateMoimResponse moimResponse = moimService.createMoim(request);
