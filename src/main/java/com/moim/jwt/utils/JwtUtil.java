@@ -33,6 +33,10 @@ public class JwtUtil {
                 .parseClaimsJws(token)
                 .getBody();
     }
+    public String getMemberId(String token){
+        return getPayload(token).get("memberId")
+                .toString();
+    }
 
     public boolean validToken(String token) {
         if (Objects.isNull(token) || token.isBlank()) {
