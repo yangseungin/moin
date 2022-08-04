@@ -25,11 +25,12 @@ public class MemberAcceptanceFactory {
                 .extract();
     }
 
-    public static ExtractableResponse<Response> 회원수정_요청(Long id, UpdateMemberRequest request) {
+    public static ExtractableResponse<Response> 회원수정_요청(Long id, UpdateMemberRequest request, String token) {
         return RestAssured
                 .given().log().all()
                 .accept(MediaType.APPLICATION_JSON_VALUE)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .auth().oauth2(token)
                 .body(request)
                 .when()
                 .patch("/members/{memberId}/update", id)

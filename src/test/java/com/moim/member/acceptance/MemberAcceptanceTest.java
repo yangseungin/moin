@@ -1,16 +1,14 @@
 package com.moim.member.acceptance;
 
+import com.moim.util.AcceptanceTest;
 import com.moim.member.application.dto.SignupMemberRequest;
 import com.moim.member.application.dto.SignupMemberResponse;
 import com.moim.member.application.dto.UpdateMemberRequest;
-import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.server.LocalServerPort;
 
 import static com.moim.member.acceptance.MemberAcceptanceFactory.회원등록_성공;
 import static com.moim.member.acceptance.MemberAcceptanceFactory.회원등록_실패;
@@ -18,17 +16,15 @@ import static com.moim.member.acceptance.MemberAcceptanceFactory.회원등록_�
 import static com.moim.member.acceptance.MemberAcceptanceFactory.회원수정_성공;
 import static com.moim.member.acceptance.MemberAcceptanceFactory.회원수정_요청;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @DisplayName("회원 인수테스트")
-public class MemberAcceptanceTest {
+public class MemberAcceptanceTest extends AcceptanceTest {
 
-    @LocalServerPort
-    private int port;
+    private static final String TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJtZW1iZXJJZCI6InlhbmdzaSJ9.HbvHhKVvRyGRMwCN1tymqF4mXewCR5VUkA7YtY7MhP8";
+
 
     @BeforeEach
-    void setUp() {
-        RestAssured.port = port;
-//        RestAssured.defaultParser = Parser.JSON;
+    public void setUp() {
+        super.setUp();
     }
 
     @Test
@@ -69,7 +65,7 @@ public class MemberAcceptanceTest {
         SignupMemberResponse yangsi = 회원등록_요청(signupRequest).as(SignupMemberResponse.class);
 
         UpdateMemberRequest updateMemberRequest = new UpdateMemberRequest("홍길동", "19920707", "여성", "change12#", "change@gmail.com");
-        ExtractableResponse<Response> 회원수정_요청결과 = 회원수정_요청(yangsi.getId(), updateMemberRequest);
+        ExtractableResponse<Response> 회원수정_요청결과 = 회원수정_요청(yangsi.getId(), updateMemberRequest, TOKEN);
 
         회원수정_성공(updateMemberRequest, 회원수정_요청결과);
     }

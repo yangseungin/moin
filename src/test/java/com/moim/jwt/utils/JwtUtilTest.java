@@ -11,7 +11,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 class JwtUtilTest {
 
     private static final String secret = "12345678901234567890123456789012";
-    private static final String VALID_TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiJ5YW5nc2kifQ.UZqyZg2IDHTHHz2H_G_jMu-6iMVOQQEcZvWW4Vm77r0";
+    private static final String VALID_TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJtZW1iZXJJZCI6InlhbmdzaSJ9.HbvHhKVvRyGRMwCN1tymqF4mXewCR5VUkA7YtY7MhP8";
     private static final String INVALID_TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiJ5YW5nc2kifQ.UZqyZg2IDHTHHz2H_G_jMu-6iMVOQQEcZvWW4Verror";
     private JwtUtil jwtUtil;
 

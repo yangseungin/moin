@@ -1,43 +1,35 @@
 package com.moim.jwt.acceptance;
 
+import com.moim.util.AcceptanceTest;
 import com.moim.jwt.application.dto.LoginRequest;
-import io.restassured.RestAssured;
+import com.moim.member.application.dto.SignupMemberRequest;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 
+import static com.moim.jwt.acceptance.JwtAcceptanceFactory.로그인_성공;
+import static com.moim.jwt.acceptance.JwtAcceptanceFactory.로그인_요청;
+import static com.moim.member.acceptance.MemberAcceptanceFactory.회원등록_요청;
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @DisplayName("JWT 인수테스트")
-public class JwtAcceptanceTest {
-    @LocalServerPort
-    private int port;
+public class JwtAcceptanceTest extends AcceptanceTest {
 
     @BeforeEach
-    void setUp() {
-        RestAssured.port = port;
+    public void setUp() {
+        super.setUp();
     }
 
     @Test
     void login() {
-        LoginRequest loginRequest = new LoginRequest("yangsi","password12#");
-        ExtractableResponse<Response> extract = RestAssured
-                .given().log().all()
-                .accept(MediaType.APPLICATION_JSON_VALUE)
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .body(loginRequest)
-                .when()
-                .post("/session/login")
-                .then().log().all()
-                .extract();
+        SignupMemberRequest request = new SignupMemberRequest("yangsi", "양승인", "19920606", "남성", "password12#", "rhfpdk92@naver.com");
+        LoginRequest loginRequest = new LoginRequest("yangsi", "password12#");
 
-        assertThat(extract.statusCode()).isEqualTo(HttpStatus.OK.value());
+        ExtractableResponse<Response> 회원등록_요청 = 회원등록_요청(request);
+        ExtractableResponse<Response> 로그인_요청 = 로그인_요청(loginRequest);
+
+        로그인_성공(로그인_요청);
     }
 }
