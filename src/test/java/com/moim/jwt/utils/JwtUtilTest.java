@@ -31,7 +31,7 @@ class JwtUtilTest {
     void decode() {
         Claims claims = jwtUtil.getPayload(VALID_TOKEN);
 
-        assertThat(claims.get("userId")).isEqualTo("yangsi");
+        assertThat(claims.get("memberId")).isEqualTo("yangsi");
     }
 
     @Test

@@ -12,16 +12,16 @@ import java.util.Objects;
 
 @Component
 public class JwtUtil {
-    private static final String CLAIM_NAME = "userId";
+    private static final String CLAIM_NAME = "memberId";
     private final Key key;
 
     public JwtUtil(@Value("${jwt.secret}") String secret) {
         key = Keys.hmacShaKeyFor(secret.getBytes());
     }
 
-    public String getToken(String userId) {
+    public String getToken(String memberId) {
         return Jwts.builder()
-                .claim(CLAIM_NAME, userId)
+                .claim(CLAIM_NAME, memberId)
                 .signWith(key)
                 .compact();
     }
