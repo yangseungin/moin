@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import java.time.LocalDateTime;
 
 import static com.moim.member.acceptance.MemberAcceptanceFactory.회원등록_요청;
+import static com.moim.moim.MoimAcceptanceFactory.모임_조회;
 import static com.moim.moim.MoimAcceptanceFactory.모임리스트_조회;
 import static com.moim.moim.MoimAcceptanceFactory.모임리스트_조회성공;
 import static com.moim.moim.MoimAcceptanceFactory.모임생성_성공;
@@ -30,10 +31,20 @@ public class MoimAcceptanceTest extends AcceptanceTest {
     }
 
     @Test
-    void 모임을_조회할_수_있다() {
+    void 모임들을_조회할_수_있다() {
         ExtractableResponse<Response> 모임리스트_조회 = 모임리스트_조회();
 
         모임리스트_조회성공(모임리스트_조회);
+    }
+
+    @Test
+    void 모임을_조회할_수_있다() {
+        CreateMoimRequest request = new CreateMoimRequest("모임모임", "모임소개", 5, true, true, LocalDateTime.of(2023, 5, 20, 0, 0));
+        ExtractableResponse<Response> 모임생성_요청 = 모임생성_요청(request, TOKEN);
+
+        ExtractableResponse<Response> 모임_조회 = 모임_조회(request.getTitle());
+
+        모임리스트_조회성공(모임_조회);
     }
 
     @Test

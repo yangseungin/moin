@@ -33,4 +33,8 @@ public class MoimResponse {
     public MoimResponse(Moim moim) {
         this(moim.getTitle(), moim.getDescription(), moim.getCreateBy().getName(), moim.getNumberOfRecruit(), moim.isRecruiting(), moim.isClosed(), moim.getRecruitDeadline(), moim.getCreatedDate());
     }
+
+    public static MoimResponse of(Moim moim) {
+        return new MoimResponse(moim);
+    }
 }

@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @RestController
@@ -25,17 +28,23 @@ public class MoimController {
 
     private final MoimService moimService;
 
-    @GetMapping("/list")
+    @GetMapping
     public ResponseEntity<List<MoimResponse>> findAllMoim() {
         List<MoimResponse> moimResponses = moimService.findMoims();
         return ResponseEntity.ok(moimResponses);
+    }
+
+    @GetMapping("/{moimTitle}")
+    public ResponseEntity<MoimResponse> findMoim(@PathVariable String moimTitle) {
+        MoimResponse moimResponse = moimService.findMoim(URLDecoder.decode(moimTitle, StandardCharsets.UTF_8));
+        return ResponseEntity.ok(moimResponse);
     }
 
 
     @PreAuthorize("isAuthenticated() and hasAuthority('USER')")
     @PostMapping("/create")
     public ResponseEntity<CreateMoimResponse> createMoim(@RequestBody @Valid CreateMoimRequest request, Authentication authentication) {
-        CreateMoimResponse moimResponse = moimService.createMoim(request,authentication);
+        CreateMoimResponse moimResponse = moimService.createMoim(request, authentication);
         return ResponseEntity.created(URI.create("/moims/" + moimResponse.getTitle())).body(moimResponse);
     }
 }

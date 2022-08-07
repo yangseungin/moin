@@ -1,7 +1,7 @@
 package com.moim.config;
 
-import com.moim.security.JwtFilter;
 import com.moim.jwt.utils.JwtUtil;
+import com.moim.security.JwtFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -39,7 +39,7 @@ public class SecurityConfig {
                 .csrf().disable()
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
-                .mvcMatchers("/h2-console/**", "/home","/members/signup","/session/login", "/moims/list").permitAll()
+                .mvcMatchers("/h2-console/**", "/home", "/members/signup", "/session/login", "/moims", "/moims/**").permitAll()
                 .anyRequest().authenticated()
 
                 .and()

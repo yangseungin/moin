@@ -25,7 +25,7 @@ public class MoimService {
 
     @Transactional
     public CreateMoimResponse createMoim(CreateMoimRequest request, Authentication authentication) {
-        if(moimRepository.existsByTitle(request.getTitle())){
+        if (moimRepository.existsByTitle(request.getTitle())) {
             throw new IllegalArgumentException("이미 존재하는 모임입니다.");
         }
 
@@ -40,7 +40,13 @@ public class MoimService {
     public List<MoimResponse> findMoims() {
         List<Moim> allMoim = moimRepository.findAll();
         return allMoim.stream()
-                .map(moim -> new MoimResponse(moim))
+                .map(MoimResponse::of)
                 .collect(Collectors.toList());
+    }
+
+    public MoimResponse findMoim(String encodedMoimTitle) {
+        Moim moim = moimRepository.findByTitle(encodedMoimTitle)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 모임입니다."));
+        return MoimResponse.of(moim);
     }
 }
