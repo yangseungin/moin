@@ -39,7 +39,7 @@ public class SecurityConfig {
                 .csrf().disable()
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
-                .mvcMatchers("/h2-console/**", "/home", "/members/signup", "/session/login", "/moims", "/moims/**").permitAll()
+                .mvcMatchers("/h2-console/**", "/home", "/members/signup", "/session/login", "/moims", "/moims/*").permitAll()
                 .anyRequest().authenticated()
 
                 .and()

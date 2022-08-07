@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -47,4 +48,20 @@ public class MoimController {
         CreateMoimResponse moimResponse = moimService.createMoim(request, authentication);
         return ResponseEntity.created(URI.create("/moims/" + moimResponse.getTitle())).body(moimResponse);
     }
+
+    @PreAuthorize("isAuthenticated() and hasAuthority('USER')")
+    @PatchMapping("/{moimTitle}/changeReruit")
+    public ResponseEntity<MoimResponse> changeRecruit(@PathVariable String moimTitle, Authentication authentication) {
+        MoimResponse moimResponse = moimService.changeRecruit(moimTitle, authentication);
+        return ResponseEntity.ok().body(moimResponse);
+    }
+
+    @PreAuthorize("isAuthenticated() and hasAuthority('USER')")
+    @PatchMapping("/{moimTitle}/close")
+    public ResponseEntity<MoimResponse> closeMoim(@PathVariable String moimTitle, Authentication authentication) {
+        MoimResponse moimResponse = moimService.closeMoim(moimTitle, authentication);
+        return ResponseEntity.ok().body(moimResponse);
+    }
+
+
 }

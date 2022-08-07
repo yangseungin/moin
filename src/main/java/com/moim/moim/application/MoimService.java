@@ -45,8 +45,30 @@ public class MoimService {
     }
 
     public MoimResponse findMoim(String encodedMoimTitle) {
-        Moim moim = moimRepository.findByTitle(encodedMoimTitle)
+        Moim moim = findMoimByTitle(encodedMoimTitle);
+        return MoimResponse.of(moim);
+    }
+
+    private Moim findMoimByTitle(String request) {
+        return moimRepository.findByTitle(request)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 모임입니다."));
+    }
+
+    @Transactional
+    public MoimResponse changeRecruit(String moimTitle, Authentication authentication) {
+        Moim moim = findMoimByTitle(moimTitle);
+        Member member = memberRepository.findByMemberId(authentication.getName()).orElseThrow();
+        moim.isOwner(member);
+        moim.changeRecruitState();
+        return MoimResponse.of(moim);
+    }
+
+    @Transactional
+    public MoimResponse closeMoim(String moimTitle, Authentication authentication) {
+        Moim moim = findMoimByTitle(moimTitle);
+        Member member = memberRepository.findByMemberId(authentication.getName()).orElseThrow();
+        moim.isOwner(member);
+        moim.moimClose();
         return MoimResponse.of(moim);
     }
 }

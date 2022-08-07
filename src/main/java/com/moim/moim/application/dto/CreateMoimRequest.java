@@ -40,6 +40,6 @@ public class CreateMoimRequest {
     }
 
     public Moim toEntity(Member member) {
-        return new Moim(member, title, description, numberOfRecruit, recruitDeadline);
+        return new Moim(member, title, description, numberOfRecruit, recruitDeadline, recruiting, closed);
     }
 }
