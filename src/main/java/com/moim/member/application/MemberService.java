@@ -1,5 +1,6 @@
 package com.moim.member.application;
 
+import com.moim.member.application.dto.MemberResponse;
 import com.moim.member.application.dto.SignupMemberRequest;
 import com.moim.member.application.dto.SignupMemberResponse;
 import com.moim.member.application.dto.UpdateMemberRequest;
@@ -40,5 +41,9 @@ public class MemberService {
     private Member getMember(String memberId) {
         return memberRepository.findByMemberId(memberId)
                 .orElseThrow(() -> new IllegalArgumentException("등록되지 않은 회원입니다."));
+    }
+
+    public MemberResponse getInfo(Authentication authentication) {
+        return MemberResponse.of(getMember(authentication.getName()));
     }
 }

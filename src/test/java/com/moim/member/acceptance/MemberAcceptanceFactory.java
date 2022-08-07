@@ -1,5 +1,6 @@
 package com.moim.member.acceptance;
 
+import com.moim.member.application.dto.MemberResponse;
 import com.moim.member.application.dto.SignupMemberRequest;
 import com.moim.member.application.dto.UpdateMemberRequest;
 import com.moim.member.application.dto.UpdateMemberResponse;
@@ -37,6 +38,17 @@ public class MemberAcceptanceFactory {
                 .then().log().all()
                 .extract();
     }
+    public static ExtractableResponse<Response> 내정보조회_요청(String token) {
+        return RestAssured
+                .given().log().all()
+                .accept(MediaType.APPLICATION_JSON_VALUE)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .auth().oauth2(token)
+                .when()
+                .get("/members/myInfo")
+                .then().log().all()
+                .extract();
+    }
 
     public static void 회원등록_성공(ExtractableResponse<Response> 회원등록_요청) {
         assertThat(회원등록_요청.statusCode()).isEqualTo(HttpStatus.CREATED.value());
@@ -57,5 +69,16 @@ public class MemberAcceptanceFactory {
 
         );
         assertThat(회원등록_요청.statusCode()).isEqualTo(HttpStatus.OK.value());
+    }
+
+    public static void 내정보조회_성공(ExtractableResponse<Response> 내정보조회_요청, SignupMemberRequest yangsi) {
+        MemberResponse response = 내정보조회_요청.as(MemberResponse.class);
+        assertAll(
+                () -> assertThat(yangsi.getName()).isEqualTo(response.getName()),
+                () -> assertThat(yangsi.getBirth()).isEqualTo(response.getBirth()),
+                () -> assertThat(yangsi.getGender()).isEqualTo(response.getGender()),
+                () -> assertThat(yangsi.getEmail()).isEqualTo(response.getEmail())
+        );
+        assertThat(내정보조회_요청.statusCode()).isEqualTo(HttpStatus.OK.value());
     }
 }

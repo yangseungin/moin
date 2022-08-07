@@ -10,6 +10,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import static com.moim.member.acceptance.MemberAcceptanceFactory.내정보조회_성공;
+import static com.moim.member.acceptance.MemberAcceptanceFactory.내정보조회_요청;
 import static com.moim.member.acceptance.MemberAcceptanceFactory.회원등록_성공;
 import static com.moim.member.acceptance.MemberAcceptanceFactory.회원등록_실패;
 import static com.moim.member.acceptance.MemberAcceptanceFactory.회원등록_요청;
@@ -68,5 +70,15 @@ public class MemberAcceptanceTest extends AcceptanceTest {
         ExtractableResponse<Response> 회원수정_요청결과 = 회원수정_요청(updateMemberRequest, TOKEN);
 
         회원수정_성공(updateMemberRequest, 회원수정_요청결과);
+    }
+
+    @Test
+    void 내정보_조회() {
+        SignupMemberRequest signupRequest = new SignupMemberRequest("yangsi", "양승인", "19920606", "남성", "password12#", "rhfpdk92@naver.com");
+        SignupMemberResponse yangsi = 회원등록_요청(signupRequest).as(SignupMemberResponse.class);
+
+        ExtractableResponse<Response> 내정보_조회결과 = 내정보조회_요청(TOKEN);
+
+        내정보조회_성공(내정보_조회결과,signupRequest);
     }
 }

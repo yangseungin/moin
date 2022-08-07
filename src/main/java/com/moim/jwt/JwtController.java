@@ -18,7 +18,6 @@ public class JwtController {
 
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody LoginRequest request) {
-        TokenData tokenData = jwtService.login(request);
-        return ResponseEntity.ok().body(tokenData);
+        return ResponseEntity.ok().body(jwtService.login(request));
     }
 }

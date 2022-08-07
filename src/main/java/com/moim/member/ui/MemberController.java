@@ -1,6 +1,7 @@
 package com.moim.member.ui;
 
 import com.moim.member.application.MemberService;
+import com.moim.member.application.dto.MemberResponse;
 import com.moim.member.application.dto.SignupMemberRequest;
 import com.moim.member.application.dto.SignupMemberResponse;
 import com.moim.member.application.dto.UpdateMemberRequest;
@@ -9,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,4 +39,12 @@ public class MemberController {
         UpdateMemberResponse response = memberService.updateInfo(request, authentication);
         return ResponseEntity.ok().body(response);
     }
+
+    @PreAuthorize("isAuthenticated() and hasAuthority('USER')")
+    @GetMapping("/myInfo")
+    public ResponseEntity<MemberResponse> myInfo(Authentication authentication) {
+        MemberResponse response = memberService.getInfo(authentication);
+        return ResponseEntity.ok().body(response);
+    }
+
 }
