@@ -7,6 +7,7 @@ import com.moim.member.application.dto.UpdateMemberResponse;
 import com.moim.member.domain.Member;
 import com.moim.member.domain.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,15 +30,15 @@ public class MemberService {
     }
 
     @Transactional
-    public UpdateMemberResponse updateInfo(Long memberId, UpdateMemberRequest request) {
-        Member member = getMember(memberId);
+    public UpdateMemberResponse updateInfo(UpdateMemberRequest request, Authentication authentication) {
+        Member member = getMember(authentication.getName());
         member.updateInfomation(request);
 
         return UpdateMemberResponse.of(member);
     }
 
-    private Member getMember(Long memberId) {
-        return memberRepository.findById(memberId)
+    private Member getMember(String memberId) {
+        return memberRepository.findByMemberId(memberId)
                 .orElseThrow(() -> new IllegalArgumentException("등록되지 않은 회원입니다."));
     }
 }

@@ -65,7 +65,7 @@ public class MemberAcceptanceTest extends AcceptanceTest {
         SignupMemberResponse yangsi = 회원등록_요청(signupRequest).as(SignupMemberResponse.class);
 
         UpdateMemberRequest updateMemberRequest = new UpdateMemberRequest("홍길동", "19920707", "여성", "change12#", "change@gmail.com");
-        ExtractableResponse<Response> 회원수정_요청결과 = 회원수정_요청(yangsi.getId(), updateMemberRequest, TOKEN);
+        ExtractableResponse<Response> 회원수정_요청결과 = 회원수정_요청(updateMemberRequest, TOKEN);
 
         회원수정_성공(updateMemberRequest, 회원수정_요청결과);
     }

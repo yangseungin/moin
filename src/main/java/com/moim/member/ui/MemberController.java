@@ -8,6 +8,7 @@ import com.moim.member.application.dto.UpdateMemberResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,10 +31,10 @@ public class MemberController {
         return ResponseEntity.created(URI.create("/members/" + memberResponse.getId())).body(memberResponse);
     }
 
-    @PreAuthorize("isAuthenticated()")
-    @PatchMapping("/{memberId}/update")
-    public ResponseEntity<UpdateMemberResponse> updateInfo(@PathVariable Long memberId, @RequestBody @Valid UpdateMemberRequest request) {
-        UpdateMemberResponse response = memberService.updateInfo(memberId, request);
+    @PreAuthorize("isAuthenticated() and hasAuthority('USER')")
+    @PatchMapping("/update")
+    public ResponseEntity<UpdateMemberResponse> updateInfo( @RequestBody @Valid UpdateMemberRequest request, Authentication authentication) {
+        UpdateMemberResponse response = memberService.updateInfo(request, authentication);
         return ResponseEntity.ok().body(response);
     }
 }
