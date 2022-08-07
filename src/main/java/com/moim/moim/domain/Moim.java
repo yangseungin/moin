@@ -93,4 +93,18 @@ public class Moim {
         }
         this.closed = true;
     }
+
+    public void add(Member member) {
+        if(members.size()>=numberOfRecruit){
+            throw new IllegalArgumentException("모집인원을 초과하였습니다.");
+        }
+        this.members.add(member);
+    }
+
+    public void remove(Member member) {
+        if (createBy.equals(member)){
+            throw new IllegalArgumentException("모임주최자는 탈퇴할 수 없습니다.");
+        }
+        this.members.remove(member);
+    }
 }

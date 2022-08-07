@@ -30,8 +30,9 @@ public class MoimService {
         }
 
         Member member = memberRepository.findByMemberId(authentication.getName()).orElseThrow();
-        Moim moim = request.toEntity(member);
-        Moim save = moimRepository.save(moim);
+
+        Moim save = moimRepository.save(request.toEntity(member));
+        save.add(member);
         return CreateMoimResponse.of(save);
 
 
@@ -69,6 +70,22 @@ public class MoimService {
         Member member = memberRepository.findByMemberId(authentication.getName()).orElseThrow();
         moim.isOwner(member);
         moim.moimClose();
+        return MoimResponse.of(moim);
+    }
+
+    @Transactional
+    public MoimResponse addMember(String moimTitle, Authentication authentication) {
+        Moim moim = findMoimByTitle(moimTitle);
+        Member member = memberRepository.findByMemberId(authentication.getName()).orElseThrow();
+        moim.add(member);
+        return MoimResponse.of(moim);
+    }
+
+    @Transactional
+    public MoimResponse removeMember(String moimTitle, Authentication authentication) {
+        Moim moim = findMoimByTitle(moimTitle);
+        Member member = memberRepository.findByMemberId(authentication.getName()).orElseThrow();
+        moim.remove(member);
         return MoimResponse.of(moim);
     }
 }

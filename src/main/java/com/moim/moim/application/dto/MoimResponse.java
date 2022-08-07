@@ -1,9 +1,11 @@
 package com.moim.moim.application.dto;
 
+import com.moim.member.domain.Member;
 import com.moim.moim.domain.Moim;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 public class MoimResponse {
@@ -11,6 +13,7 @@ public class MoimResponse {
     private String description;
     private String createBy;
     private Integer numberOfRecruit;
+    List<Member> members;
     private boolean recruiting;
     private boolean closed;
     private LocalDateTime recruitDeadline;

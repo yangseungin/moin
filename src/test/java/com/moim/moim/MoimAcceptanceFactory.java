@@ -70,6 +70,30 @@ public class MoimAcceptanceFactory {
                 .extract();
     }
 
+    public static ExtractableResponse<Response> 모임참가_요청(String title, String token) {
+        return RestAssured
+                .given().log().all()
+                .accept(MediaType.APPLICATION_JSON_VALUE)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .auth().oauth2(token)
+                .when()
+                .patch("/moims/{title}/join", title)
+                .then().log().all()
+                .extract();
+    }
+
+    public static ExtractableResponse<Response> 모임타뢰_요청(String title, String token) {
+        return RestAssured
+                .given().log().all()
+                .accept(MediaType.APPLICATION_JSON_VALUE)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .auth().oauth2(token)
+                .when()
+                .patch("/moims/{title}/leave", title)
+                .then().log().all()
+                .extract();
+    }
+
     public static void 모임리스트_조회성공(ExtractableResponse<Response> 모임리스트_조회) {
         assertThat(모임리스트_조회.statusCode()).isEqualTo(HttpStatus.OK.value());
     }
@@ -104,5 +128,19 @@ public class MoimAcceptanceFactory {
 
     public static void 모임종료_실패(ExtractableResponse<Response> 모임종료_결과) {
         assertThat(모임종료_결과.statusCode()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR.value());
+    }
+
+    public static void 모임참가_성공(ExtractableResponse<Response> 모임종료_결과) {
+        assertThat(모임종료_결과.statusCode()).isEqualTo(HttpStatus.OK.value());
+    }
+
+    public static void 모임참가_실패(ExtractableResponse<Response> 모임종료_결과) {
+        assertThat(모임종료_결과.statusCode()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR.value());
+    }
+    public static void 모임탈퇴_성공(ExtractableResponse<Response> 모임탈퇴_결과) {
+        assertThat(모임탈퇴_결과.statusCode()).isEqualTo(HttpStatus.OK.value());
+    }
+    public static void 모임탈퇴_실패(ExtractableResponse<Response> 모임탈퇴_결과) {
+        assertThat(모임탈퇴_결과.statusCode()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR.value());
     }
 }

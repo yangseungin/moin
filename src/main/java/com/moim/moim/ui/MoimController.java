@@ -63,5 +63,20 @@ public class MoimController {
         return ResponseEntity.ok().body(moimResponse);
     }
 
+    @PreAuthorize("isAuthenticated() and hasAuthority('USER')")
+    @PatchMapping("/{moimTitle}/join")
+    public ResponseEntity<MoimResponse> joinMoim(@PathVariable String moimTitle, Authentication authentication) {
+        MoimResponse moimResponse = moimService.addMember(moimTitle, authentication);
+        return ResponseEntity.ok().body(moimResponse);
+    }
+
+    @PreAuthorize("isAuthenticated() and hasAuthority('USER')")
+    @PatchMapping("/{moimTitle}/leave")
+    public ResponseEntity<MoimResponse> leaveMoim(@PathVariable String moimTitle, Authentication authentication) {
+        MoimResponse moimResponse = moimService.removeMember(moimTitle, authentication);
+        return ResponseEntity.ok().body(moimResponse);
+    }
+
+
 
 }

@@ -24,10 +24,17 @@ import static com.moim.moim.MoimAcceptanceFactory.모임생성_요청;
 import static com.moim.moim.MoimAcceptanceFactory.모임종료_성공;
 import static com.moim.moim.MoimAcceptanceFactory.모임종료_실패;
 import static com.moim.moim.MoimAcceptanceFactory.모임종료_요청;
+import static com.moim.moim.MoimAcceptanceFactory.모임참가_성공;
+import static com.moim.moim.MoimAcceptanceFactory.모임참가_실패;
+import static com.moim.moim.MoimAcceptanceFactory.모임참가_요청;
+import static com.moim.moim.MoimAcceptanceFactory.모임타뢰_요청;
+import static com.moim.moim.MoimAcceptanceFactory.모임탈퇴_성공;
+import static com.moim.moim.MoimAcceptanceFactory.모임탈퇴_실패;
 
 @DisplayName("모임 인수테스트")
 public class MoimAcceptanceTest extends AcceptanceTest {
     private static final String TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJtZW1iZXJJZCI6InlhbmdzaSJ9.HbvHhKVvRyGRMwCN1tymqF4mXewCR5VUkA7YtY7MhP8";
+    private static final String TOKEN2 = "eyJhbGciOiJIUzI1NiJ9.eyJtZW1iZXJJZCI6InlhbmdzaTIifQ.M1MtHBtLeWp4mEzsms5mSZi9NfbjzYrRhb17OfuJP9Y";
 
     @BeforeEach
     public void setUp() {
@@ -110,6 +117,54 @@ public class MoimAcceptanceTest extends AcceptanceTest {
         ExtractableResponse<Response> 모임종료_요청 = 모임종료_요청(request.getTitle(), TOKEN);
 
         모임종료_실패(모임종료_요청);
+    }
+
+    @Test
+    void 모임을_참가할_수_있다(){
+        SignupMemberRequest 회원정보 = new SignupMemberRequest("yangsi2", "양승인2", "19920606", "남성", "password12#", "rhfpdk93@naver.com");
+        ExtractableResponse<Response> 회원등록_요청 = 회원등록_요청(회원정보);
+        CreateMoimRequest request = new CreateMoimRequest("모임모임", "모임소개", 5, true, false, LocalDateTime.of(2023, 5, 20, 0, 0));
+        ExtractableResponse<Response> 모임생성_요청 = 모임생성_요청(request, TOKEN);
+
+        ExtractableResponse<Response> 모임참가_요청 = 모임참가_요청(request.getTitle(), TOKEN2);
+
+        모임참가_성공(모임참가_요청);
+    }
+
+    @Test
+    void 모집인원을_초과하여_참가할_수_없다(){
+        SignupMemberRequest 회원정보 = new SignupMemberRequest("yangsi2", "양승인2", "19920606", "남성", "password12#", "rhfpdk93@naver.com");
+        ExtractableResponse<Response> 회원등록_요청 = 회원등록_요청(회원정보);
+        CreateMoimRequest request = new CreateMoimRequest("모임모임", "모임소개", 1, true, false, LocalDateTime.of(2023, 5, 20, 0, 0));
+        ExtractableResponse<Response> 모임생성_요청 = 모임생성_요청(request, TOKEN);
+
+        ExtractableResponse<Response> 모임참가_요청 = 모임참가_요청(request.getTitle(), TOKEN2);
+
+        모임참가_실패(모임참가_요청);
+    }
+
+    @Test
+    void 모임을_탈퇴할_수_있다(){
+        SignupMemberRequest 회원정보 = new SignupMemberRequest("yangsi2", "양승인2", "19920606", "남성", "password12#", "rhfpdk93@naver.com");
+        ExtractableResponse<Response> 회원등록_요청 = 회원등록_요청(회원정보);
+        CreateMoimRequest request = new CreateMoimRequest("모임모임", "모임소개", 5, true, false, LocalDateTime.of(2023, 5, 20, 0, 0));
+        ExtractableResponse<Response> 모임생성_요청 = 모임생성_요청(request, TOKEN);
+
+        ExtractableResponse<Response> 모임탈퇴_요청 = 모임타뢰_요청(request.getTitle(), TOKEN2);
+
+        모임탈퇴_성공(모임탈퇴_요청);
+    }
+
+    @Test
+    void 주최자는_모임을_탈퇴할_수_없다(){
+        SignupMemberRequest 회원정보 = new SignupMemberRequest("yangsi2", "양승인2", "19920606", "남성", "password12#", "rhfpdk93@naver.com");
+        ExtractableResponse<Response> 회원등록_요청 = 회원등록_요청(회원정보);
+        CreateMoimRequest request = new CreateMoimRequest("모임모임", "모임소개", 5, true, false, LocalDateTime.of(2023, 5, 20, 0, 0));
+        ExtractableResponse<Response> 모임생성_요청 = 모임생성_요청(request, TOKEN);
+
+        ExtractableResponse<Response> 모임탈퇴_요청 = 모임타뢰_요청(request.getTitle(), TOKEN);
+
+        모임탈퇴_실패(모임탈퇴_요청);
     }
 
 

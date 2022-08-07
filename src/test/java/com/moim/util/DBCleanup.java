@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,6 +17,7 @@ public class DBCleanup implements InitializingBean {
     @PersistenceContext
     private EntityManager entityManager;
     private List<String> tableNames;
+    private List<String> tableNames2 = new ArrayList<>();
 
 
     @Override
@@ -25,7 +27,11 @@ public class DBCleanup implements InitializingBean {
                 .map(e -> CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, e.getName()))
                 .collect(Collectors.toList());
 
+        //TODO 추후에 변경
+        tableNames2.add("moim_members");
+
     }
+
     @Transactional
     public void clean() {
         entityManager.flush();
@@ -37,6 +43,10 @@ public class DBCleanup implements InitializingBean {
         }
 
         entityManager.createNativeQuery("SET REFERENTIAL_INTEGRITY TRUE").executeUpdate();
+
+        for (String tableName : tableNames2) {
+            entityManager.createNativeQuery("TRUNCATE TABLE " + tableName).executeUpdate();
+        }
 
     }
 
